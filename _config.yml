@@ -1,0 +1,28 @@
+title: My GitHub Blog
+description: Personal thoughts and projects
+author: hhh0x
+baseurl: ""
+url: "" # 将来替换为你的GitHub Pages URL
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Social links
+github_username: hhh0x
+
+# 博客设置
+permalink: /:year/:month/:day/:title/
+paginate: 5
+show_excerpts: true
+
+# 排除的文件/文件夹
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git 
