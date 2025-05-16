@@ -1,6 +1,5 @@
-title: My GitHub Blog
-description: Personal thoughts and projects
-author: hhh0x
+title: HHH Blog
+description: Personal thoughts and ai exploration
 baseurl: ""
 url: "" # 将来替换为你的GitHub Pages URL
 
@@ -12,7 +11,7 @@ plugins:
   - jekyll-seo-tag
 
 # Social links
-github_username: hhh0x
+github_username: cyl19970726
 
 # 博客设置
 permalink: /:year/:month/:day/:title/

@@ -6,12 +6,12 @@ permalink: /about/
 
 # About Me
 
-Welcome to my personal blog! I'm a technology enthusiast with interests in:
+Welcome to hhh personal blog! I'm a technology enthusiast with interests in:
 
 - Artificial Intelligence
 - Web3 & Blockchain Technology
-- Software Development
-- Open Source Projects
+- LLM/VLA
+- ZKP
 
 ## Background
 
@@ -20,13 +20,14 @@ I enjoy exploring new technologies and sharing my discoveries through this blog.
 ## Projects
 
 Some of my projects include:
-- Web3 Agent exploration
+- Agent exploration
 - AI/LLM experiments
-- Various software development projects
+- Web3 & Blockchain Projects
+- ZKP Projects
 
 ## Contact
 
-Feel free to reach out to me via [GitHub](https://github.com/hhh0x) or other social media platforms linked below.
+Feel free to reach out to me via [GitHub](https://github.com/cyl19970726) or other social media platforms linked below.
 
 ---
 
