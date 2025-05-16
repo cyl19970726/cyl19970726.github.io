@@ -4,7 +4,7 @@ title: HHH Blog
 ---
 
 # Recent Posts
-
+<!-- 
 {% for post in site.posts limit:5 %}
   <div class="post-preview">
     <h2>
@@ -15,7 +15,7 @@ title: HHH Blog
     <a href="{{ post.url | relative_url }}">Read More</a>
   </div>
   <hr>
-{% endfor %}
+{% endfor %} -->
 
 
 # About Me
