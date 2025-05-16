@@ -3,11 +3,7 @@ layout: home
 title: HHH Blog
 ---
 
-# Introduction
-
-Here I share my thoughts on technology, programming, and other interesting topics.
-
-## Recent Posts
+# Recent Posts
 
 {% for post in site.posts limit:5 %}
   <div class="post-preview">
@@ -22,7 +18,7 @@ Here I share my thoughts on technology, programming, and other interesting topic
 {% endfor %}
 
 
-## About Me
+# About Me
 
 I'm a technology enthusiast interested in AI, blockchain, and web development. This blog is a place for me to share my projects, ideas, and learning experiences.
 
