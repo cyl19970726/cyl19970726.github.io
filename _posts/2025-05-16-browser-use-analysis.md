@@ -21,10 +21,9 @@ tags: browser ai llm automation
 6. 找到当天最便宜的机票，购买，同时调用google pay 进行付款 
 7. 付款成功，用户在自己的邮箱里收到机票信息，以及登机牌总的来说，agent拥有了无缝接入这个世界的能力，同时agent之间的协作也会更加丝滑
 
-具体的使用场景，可以参考openai Browser-Use里的几个例子
-[https://openai.com/index/computer-using-agent/](https://openai.com/index/computer-using-agent/)
-也可以参考 browse-use 仓库里列举的场景:
-[https://github.com/browser-use/browser-use?tab=readme-ov-file#demos](https://github.com/browser-use/browser-use?tab=readme-ov-file#demos)
+具体的使用场景:
+1. 可以参考openai opera里的[几个例子]([https://openai.com/index/computer-using-agent/])
+2. 也可以参考 browse-use 仓库里列举的[场景](https://github.com/browser-use/browser-use?tab=readme-ov-file#demos)
 
 # 2. AI控制浏览器的不同技术路线
 首先，我们可以把Agent控制网页分为三个步骤：
@@ -35,8 +34,10 @@ tags: browser ai llm automation
 
 - 截图路线
 现在有两个比较主流的技术路线，一种是openai-operator为首的，解析网页通过网页截图来让 Agent 理解，然后在网页上执行动作则通过 直接让Agent控制鼠标和键盘来实现，实现原理大概如下(图片来自openai operator)：
-![截图路线原理](/assets/images/Pasted%20image%2020250515160231.png)
+![openai-operaor](/assets/images/openai-operator.png)
+
 - DOM 路线
+
 还有另外一种路线，也是我们今天Browse-Use的路线，是通过把Html网页解析成树状结构体(DOM Tree)，因为本身Html网页其实都是一堆XML节点的嵌套，所以很好解析成树状结构; 
 然后再标识出哪些节点是可交互节点，把这些这点的index提取出来，最终把 "Task+DOM Tree+可交互节点列表"一起提交给LLM，由LLM根据用户的Task选择对应要交互的节点，然后调用Playwright执行交互动作。
 原理大概如下，后面我会详细解释这张图：
@@ -44,11 +45,8 @@ tags: browser ai llm automation
 
 # 3. 用DOM解析的路线实现 Agent Control Browse我们要解决什么问题
 
-- 怎么让AI的动作更像人
-	我们很容易根据自身的需求点击到正确的按钮，但是用DOM的方案就还要判断，诶我们现在拿到的这些可以交互节点中，哪些节点是我们当前窗口可以看见的节点，哪些节点是我们当前窗口看不见的节点，因此我们往往也需要给所有的节点加上一个 "可见性"的属性，从而让AI操作浏览器的时候更像人。
-- 执行一个点击动作之后，我们需要重新
-- 怎么让解析网页和理解指令到执行动作衔接起来
-- 我们要实现哪些动作
+1. 怎么让解析网页和理解指令到执行动作衔接起来?
+2. 我们要实现哪些动作?
 	- 按照我们人使用浏览器的习惯，我们对浏览器的操作不外乎这几个动作：
 	1. 点击
 	2. 跳转
@@ -56,18 +54,23 @@ tags: browser ai llm automation
 	4. 等待
 	5. 滚动
 	这些动作的实现并不困难，因为类似 Playwright 之类的工作都可以轻松的实现之上的几个动作。
-- 怎么处理 Cookie 
-- 怎么处理验证码
+3. 怎么让AI的动作更像人?
+	我们很容易根据自身的需求点击到正确的按钮，但是用DOM的方案就还要判断，诶我们现在拿到的这些可以交互节点中，哪些节点是我们当前窗口可以看见的节点，哪些节点是我们当前窗口看不见的节点，因此我们往往也需要给所有的节点加上一个 "可见性"的属性，从而让AI操作浏览器的时候更像人。
+4. 怎么处理 Cookie ?
 
 # 4. Browser-Use的解决方案
 Browser-Use的解决方案如下：
 
 ![DOM路线原理](/assets/images/Pasted%20image%2020250515161045.png)
 ### 4.1 解析网页
-解析网页涉及图上的 1️⃣ 和 2️⃣ 
+解析网页涉及图上的 1️⃣ 和 2️⃣ :
+
 首先Browse会在浏览器端注入 `buildDomTree.js` 里的代码
+
 代码存在位置： https://github.com/browser-use/browser-use/blob/main/browser_use/dom/buildDomTree.js
+
 代码注入位置： https://github.com/browser-use/browser-use/blob/main/browser_use/dom/service.py#L101
+
 `buildDomTree.js` 里会把代码按照以下方式进行解析： 
 - 遍历整个 DOM，从 `<body>` 开始递归所有节点。
 - 对每个节点，收集：
@@ -158,7 +161,9 @@ Browser-Use的解决方案如下：
 ```
 
 然后接下来我们要把Json版本的Dom Tree转换成用Python版本的Map存储（本身数据没有变化，只是用了python的map来存储数据以及提取出当前可以被交互的节点列表 selector map）
+
 代码位置： https://github.com/browser-use/browser-use/blob/main/browser_use/dom/service.py#L117
+
 - 调用 `_construct_dom_tree(eval_page)`，把 JS 端的扁平 map 还原为 Python 的树状结构。
 - 每个节点变成 `DOMElementNode` 或 `DOMTextNode`，父子关系用 `children` 和 `parent` 字段连接。
 - **selector_map**：把所有有 `highlightIndex` 的节点收集起来，形成 `{highlightIndex: node}` 的字典。
@@ -173,6 +178,7 @@ Browser-Use的解决方案如下：
 | isTopElement   | 避免点到被遮挡元素，提升操作准确性，适配复杂页面                                        |
 
 **这四个属性共同保证了 Browser Agent 的操作既"像人一样"，又"高效、准确、鲁棒"。**
+
 然后接下来，我们需要把json数据继续解析成Python版本的DOM Tree，代码里的名字叫Element Tree;以及对应的可交互节点列表，代码里的名字叫(selector map)
 #### b) selector_map
 ```python
@@ -187,9 +193,8 @@ selector_map = {
 
 ### 4.2操作网页
 操作网页我们来看看， Browser-Use实现了哪些Action:
+
 可以在`browser_use/controller/service.py` 里找到所有Action
-
-
 
 | Action 名字              | 描述                          | 参数（主要）                             | 必要性/使用场景               | 与 DOM 的关系                        |
 | ------------------------ | --------------------------- | --------------------------------------- | -------------------------- | ------------------------------------ |

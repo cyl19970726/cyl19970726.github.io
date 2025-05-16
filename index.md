@@ -1,9 +1,9 @@
 ---
 layout: home
-title: Welcome to HHH Blog
+title: HHH Blog
 ---
 
-# Welcome to My Personal Blog
+# Introduction
 
 Here I share my thoughts on technology, programming, and other interesting topics.
 
@@ -20,6 +20,7 @@ Here I share my thoughts on technology, programming, and other interesting topic
   </div>
   <hr>
 {% endfor %}
+
 
 ## About Me
 
