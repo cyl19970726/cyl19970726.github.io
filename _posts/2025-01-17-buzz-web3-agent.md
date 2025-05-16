@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Buzz 为每个人创造自己的web3 Agent"
-date: 2023-09-01 10:00:00 +0800
+date: 2025-01-17 10:00:00 +0800
 categories: web3
 tags: agent ai blockchain buzz
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "融资融了1700万美元的AI浏览器 Browser-Use 是怎么实现的"
-date: 2023-08-01 09:00:00 +0800
+date: 2025-05-16 09:00:00 +0800
 categories: ai
 tags: browser ai llm automation
 ---
@@ -22,7 +22,7 @@ tags: browser ai llm automation
 7. 付款成功，用户在自己的邮箱里收到机票信息，以及登机牌总的来说，agent拥有了无缝接入这个世界的能力，同时agent之间的协作也会更加丝滑
 
 具体的使用场景:
-1. 可以参考openai opera里的[几个例子]([https://openai.com/index/computer-using-agent/])
+1. 可以参考openai opera里的[几个例子](https://openai.com/index/computer-using-agent/)
 2. 也可以参考 browse-use 仓库里列举的[场景](https://github.com/browser-use/browser-use?tab=readme-ov-file#demos)
 
 # 2. AI控制浏览器的不同技术路线

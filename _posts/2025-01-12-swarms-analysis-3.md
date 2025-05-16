@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Swarms Analysis (三)"
-date: 2024-07-18 10:02:00 +0800
+date: 2025-01-12 10:02:00 +0800
 categories: swarms ai
 tags: [agent, swarms, analysis, architecture]
 ---
