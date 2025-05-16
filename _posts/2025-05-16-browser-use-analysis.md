@@ -382,6 +382,7 @@ self._message_manager.add_state_message(state, self.state.last_result, step_info
 - 具体会用到 `AgentMessagePrompt`、`SystemPrompt` 等 prompt 构造器，把 selector map、DOM tree、元素属性、index、文本等信息格式化为自然语言或结构化文本，供 LLM 理解。
  c) prompt 例子（伪代码）
 LLM 看到的 prompt 可能类似于：
+
 ```
 当前页面可交互元素列表：
 0: button, text="提交", xpath="/body/div/button[1]"
