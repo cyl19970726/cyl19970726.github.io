@@ -480,6 +480,7 @@ def create_action_model(self, page=None):
 3. LLM 理解用户指令
 4. Html网页的截图以及Dom Tree和可交互节点列表一起提交给 LLM
 	- LLM 看到的 prompt 可能类似于：
+
 ```
 	当前的页面截图：
 	website.png
@@ -498,5 +499,6 @@ def create_action_model(self, page=None):
 		
 	请根据用户指令、可交互元素列表、以及页面截图，选择合适的Action操作当前页面
 ```
+
 5. LLM 选择合适的 Action进行执行
 6. 最终由 Playwright 控制浏览器通过LLM选出的Action和对应的参数操作浏览器，并且会生成新的网页DOM Tree继续进入下一个循环直到用户的任务被完全解决
