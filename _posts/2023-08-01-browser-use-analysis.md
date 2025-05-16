@@ -189,9 +189,9 @@ selector_map = {
 操作网页我们来看看， Browser-Use实现了哪些Action:
 可以在`browser_use/controller/service.py` 里找到所有Action
 
----
 
-| ==Action 名字==            | ==描述==                      | ==参数（主要）==                              | ==必要性/使用场景==               | ==与 DOM 的关系==                        |
+
+| Action 名字              | 描述                          | 参数（主要）                             | 必要性/使用场景               | 与 DOM 的关系                        |
 | ------------------------ | --------------------------- | --------------------------------------- | -------------------------- | ------------------------------------ |
 | search_google            | 在当前标签页用 Google 搜索           | query: str                              | 信息检索、自动化搜索、导航到新内容          | 仅与页面跳转相关，非直接 DOM 操作                  |
 | go_to_url                | 跳转到指定 URL                   | url: str                                | 任意网页导航、流程跳转                | 仅与页面跳转相关，非直接 DOM 操作                  |
@@ -217,6 +217,7 @@ selector_map = {
 | clear_selected_range     | 清空 Google Sheets 当前选中单元格    | 无                                       | 表格编辑、数据清理                  | 通过键盘操作，间接与 DOM 交互                    |
 | input_selected_cell_text | 向 Google Sheets 当前单元格输入文本   | text: str                               | 表格编辑、数据录入                  | 通过键盘操作，间接与 DOM 交互                    |
 | update_range_contents    | 批量更新 Google Sheets 单元格内容    | range: str, new_contents_tsv: str       | 表格批量编辑、自动化填表               | 通过键盘和剪贴板，间接与 DOM 交互                  |
+
 **说明**
 
 - **参数**：只列出最关键的参数，实际有些 action 还有可选参数。
