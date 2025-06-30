@@ -92,51 +92,6 @@ Gemini CLI 采用了模块化的分层架构，清晰地分离了用户界面、
 
 ### 用户交互流程
 
-```mermaid
-flowchart TD
-    %% 用户层
-    A[👤 用户输入<br/>例如: "帮我修复这个bug"] --> B[🖥️ CLI 预处理<br/>解析命令类型]
-    
-    %% 命令分类处理
-    B --> C{🔍 命令类型判断}
-    C -->|/help, /theme| D[💻 本地处理<br/>直接在 CLI 执行]
-    C -->|ls, git status| E[🐚 Shell工具<br/>执行系统命令]
-    C -->|AI 对话| F[🤖 发送给 Gemini<br/>需要 AI 处理]
-    
-    %% AI 处理流程
-    F --> G[⚙️ Core 处理<br/>构建 API 请求]
-    G --> H[🔄 Turn 管理<br/>单次对话轮次]
-    H --> I{🛠️ 需要工具调用?<br/>如读取文件、执行命令}
-    
-    %% 工具执行分支
-    I -->|是| J[📋 工具调度器<br/>管理工具执行]
-    I -->|否| K[💬 直接响应<br/>纯文本回答]
-    
-    %% 工具执行详情
-    J --> L[⚡ 工具并发执行<br/>read_file + grep + ls]
-    L --> M[📊 结果收集<br/>等待所有工具完成]
-    M --> N[🔁 继续对话<br/>发送结果给 Gemini]
-    N --> O[📺 显示最终结果]
-    
-    %% 其他分支汇总
-    K --> O
-    D --> O
-    E --> O
-    
-    %% 样式定义
-    classDef userStyle fill:#e1f5fe
-    classDef cliStyle fill:#f3e5f5
-    classDef aiStyle fill:#e8f5e8
-    classDef toolStyle fill:#fff3e0
-    classDef resultStyle fill:#fce4ec
-    
-    class A userStyle
-    class B,D,E cliStyle
-    class F,G,H,I,K,N aiStyle
-    class J,L,M toolStyle
-    class O resultStyle
-```
-
 ![](/assets/images/gemini-cli-user-workflow.png)
 
 ### 详细工作流程示例
@@ -144,39 +99,6 @@ flowchart TD
 让我们通过一个具体例子来理解工作流程：
 
 **用户输入**: "帮我找到项目中所有的 TODO 注释并修复第一个"
-
-```mermaid
-sequenceDiagram
-    participant User as 👤 用户
-    participant CLI as 🖥️ CLI层
-    participant Core as ⚙️ Core层
-    participant Gemini as 🤖 Gemini API
-    participant Tools as 🛠️ 工具系统
-    
-    User->>CLI: "找到所有TODO并修复第一个"
-    CLI->>Core: 转发用户请求
-    Core->>Gemini: 发送请求 + 工具列表 + 历史
-    
-    Note over Gemini: AI 分析任务，决定需要的工具
-    
-    Gemini->>Core: 返回工具调用请求<br/>[grep搜索, read_file读取, edit修改]
-    Core->>Tools: 调度工具执行
-    
-    par 并发执行工具
-        Tools->>Tools: grep "TODO" **/*.js
-        Tools->>Tools: read_file src/utils.js
-        Tools->>Tools: (等待前面结果)
-    end
-    
-    Tools->>Core: 返回所有工具结果
-    Core->>Gemini: 发送工具执行结果
-    
-    Note over Gemini: 基于结果生成修复方案
-    
-    Gemini->>Core: 返回修复代码
-    Core->>CLI: 转发响应
-    CLI->>User: 显示结果 + 修复建议
-```
 
 ![](/assets/images/gemini-cli-todo-sequence.png)
 
