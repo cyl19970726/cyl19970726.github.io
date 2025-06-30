@@ -1,0 +1,18 @@
+flowchart TD
+    A[User Input] --> B[CLI Preprocess]
+    B --> C{Command Type?}
+    C -->|/help| D[Local] 
+    C -->|ls| E[Shell] 
+    C -->|AI| F[Gemini] 
+    F --> G[Core] 
+    G --> H[Turn] 
+    H --> I{Need tools?} 
+    I -->|Yes| J[Tool Scheduler] 
+    I -->|No| K[Direct Response] 
+    J --> L[Execute Tools] 
+    L --> M[Collect Results] 
+    M --> N[Send to Gemini] 
+    N --> O[Display] 
+    K --> O 
+    D --> O 
+    E --> O 

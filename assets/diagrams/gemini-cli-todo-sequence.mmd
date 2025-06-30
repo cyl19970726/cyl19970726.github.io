@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant User as 👤 用户
+    participant CLI as 🖥️ CLI层
+    participant Core as ⚙️ Core层
+    participant Gemini as 🤖 Gemini API
+    participant Tools as 🛠️ 工具系统
+    
+    User->>CLI: "找到所有TODO并修复第一个"
+    CLI->>Core: 转发用户请求
+    Core->>Gemini: 发送请求 + 工具列表 + 历史
+    
+    Note over Gemini: AI 分析任务，决定需要的工具
+    
+    Gemini->>Core: 返回工具调用请求<br/>[grep搜索, read_file读取, edit修改]
+    Core->>Tools: 调度工具执行
+    
+    par 并发执行工具
+        Tools->>Tools: grep "TODO" **/*.js
+        Tools->>Tools: read_file src/utils.js
+        Tools->>Tools: (等待前面结果)
+    end
+    
+    Tools->>Core: 返回所有工具结果
+    Core->>Gemini: 发送工具执行结果
+    
+    Note over Gemini: 基于结果生成修复方案
+    
+    Gemini->>Core: 返回修复代码
+    Core->>CLI: 转发响应
+    CLI->>User: 显示结果 + 修复建议
